@@ -34,9 +34,6 @@ public class DestinationFinderController {
     @Autowired
     private AirportService airportService;
 
-    @Autowired
-    HttpSession session;
-
     @RequestMapping(value = {"/", "${service.df.endpoint}"}, produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.GET)
     public String index() {
         return "finder";
@@ -56,7 +53,7 @@ public class DestinationFinderController {
 //    }
 
     @RequestMapping(value = {"/search", "${service.df.endpoint}/search/"}, method = RequestMethod.POST, produces = MediaType.TEXT_HTML_VALUE)
-    public String search(final Request req, final ModelMap modelMap) {
+    public String search(final Request req, final ModelMap modelMap, final HttpSession session) {
         List<Destination> result = service.findByOriginPosMinBudgetAndMaxBudget(req.getOrigin(), req.getPos(), req.getMinBudget(), req.getMaxBudget());
         PagedListHolder pages = new PagedListHolder(result);
         pages.setPageSize(10);
@@ -66,9 +63,9 @@ public class DestinationFinderController {
         return "finder";
     }
 
-
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = {"/search/{page}", "${service.df.endpoint}/search/{page}"}, method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String search(@PathVariable Integer page, final ModelMap modelMap) {
+    public String search(@PathVariable Integer page, final ModelMap modelMap, final HttpSession session) {
         PagedListHolder<Destination> pages = (PagedListHolder<Destination>) session.getAttribute("DestinationFinderController_result");
         pages.setPage(page);
         modelMap.put("pages", pages);
@@ -78,8 +75,9 @@ public class DestinationFinderController {
     /*
      * On a better implementation, I should not expose a new endpoint to sort results. It should be a query param on the search
      */
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = {"/sort/{sortBy}", "${service.df.endpoint}/sort/{sortBy}"}, method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String sort(@PathVariable String sortBy, final ModelMap modelMap) {
+    public String sort(@PathVariable String sortBy, final ModelMap modelMap, final HttpSession session) {
         PagedListHolder<Destination> pages = (PagedListHolder<Destination>) session.getAttribute("DestinationFinderController_result");
         switch (sortBy) {
             case "fare":

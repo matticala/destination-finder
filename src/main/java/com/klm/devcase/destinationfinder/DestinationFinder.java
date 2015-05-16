@@ -20,9 +20,8 @@ import java.util.Properties;
 @EnableAutoConfiguration
 @EnableCaching
 @EnableJpaRepositories(basePackages = "com.klm.devcase.destinationfinder")
-//@EnableAsync //haven't implemented a proper way to make Airport list request async
 @ComponentScan("com.klm.devcase.destinationfinder")
-@ImportResource("spring.xml")
+@ImportResource("classpath:spring.xml")
 @Slf4j
 public class DestinationFinder {
 

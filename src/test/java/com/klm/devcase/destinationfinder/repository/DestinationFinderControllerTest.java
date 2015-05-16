@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Many other tests should be done, but time is running out.
  */
-@WebAppConfiguration
+@WebAppConfiguration(value = "src/main/resources")
 public class DestinationFinderControllerTest extends AbstractSpringTestSupport {
 
     @Autowired
@@ -34,7 +34,7 @@ public class DestinationFinderControllerTest extends AbstractSpringTestSupport {
         this.mockMvc.perform(get("/destination-finder/")
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html"));
+                .andExpect(content().contentType("text/html;charset=UTF-8"));
     }
 
     @Test
@@ -42,6 +42,6 @@ public class DestinationFinderControllerTest extends AbstractSpringTestSupport {
         this.mockMvc.perform(get("/stats")
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"));
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
     }
 }

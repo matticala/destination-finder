@@ -22,7 +22,7 @@ import javax.persistence.Query;
 public class StatisticsController {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @RequestMapping(value = "/stats", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Statistic getStatistic() {
